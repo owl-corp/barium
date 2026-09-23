@@ -42,6 +42,9 @@ def render_thread_chunk(args):
         full_path = os.path.join(out_dir, rel_path)
         os.makedirs(os.path.dirname(full_path), exist_ok=True)
 
+        if not _template:
+            raise ValueError("Template 'thread.html' could not be loaded.")
+
         html_out = _template.render(thread=thread, recipient=recipient)
 
         with open(full_path, "w", encoding="utf-8") as f:
