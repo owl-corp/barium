@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thread {{ thread._id }} - ModMail Log</title>
+  <link rel="stylesheet" href="../../thread.css">
+</head>
+<body class="discord-dark">
+  <header class="thread-header">
+    <div class="header-left">
+      <a href="../../" class="back-link">&larr; Back to Search</a>
+      <div class="thread-info">
+        <h1 class="thread-title">
+          <span class="hashtag">#</span> Thread <span class="thread-id">{{ thread._id }}</span>
+        </h1>
+        <div class="thread-meta">
+          <span>Recipient: <strong>{{ recipient.name }}{% if recipient.discriminator and recipient.discriminator != '0' %}#{{ recipient.discriminator }}{% endif %}</strong> (<code>{{ recipient.id }}</code>)</span>
+          <span>Created: <time title="{{ thread.created_at }}">{{ thread.created_at[:19] }}</time></span>
+          {% if thread.closed_at %}
+          <span>Closed: <time title="{{ thread.closed_at }}">{{ thread.closed_at[:19] }}</time></span>
+          {% endif %}
+          {% if thread.closer %}
+          <span>Closed by: {{ thread.closer.name }}</span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="header-badge {% if thread.open %}badge-open{% else %}badge-closed{% endif %}">
+      {{ 'OPEN' if thread.open else 'CLOSED' }}
+    </div>
+  </header>
+
+  {% if thread.close_message %}
+  <div class="close-banner">
+    <strong>Close reason:</strong> {{ thread.close_message }}
+  </div>
+  {% endif %}
+
+  <main class="chat-container">
+    {% for msg in thread.messages %}
+    <div class="message-group {{ 'msg-internal' if msg.type == 'internal' else '' }} {{ 'msg-system' if msg.type == 'system' else '' }}">
+      <div class="avatar-col">
+        <img class="avatar" src="{{ msg.author.avatar_url or 'https://cdn.discordapp.com/embed/avatars/0.png' }}" alt="{{ msg.author.name }}" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.discordapp.com/embed/avatars/0.png';">
+      </div>
+      <div class="message-body">
+        <div class="message-header">
+          <span class="author-name {{ 'author-mod' if msg.author.mod else '' }}">{{ msg.author.name }}</span>
+          {% if msg.author.mod %}
+          <span class="bot-badge mod-badge">MOD</span>
+          {% endif %}
+          {% if msg.type == 'internal' %}
+          <span class="bot-badge internal-badge">INTERNAL</span>
+          {% elif msg.type == 'anonymous' %}
+          <span class="bot-badge anon-badge">ANONYMOUS</span>
+          {% elif msg.type == 'system' %}
+          <span class="bot-badge system-badge">SYSTEM</span>
+          {% endif %}
+          <time class="timestamp" title="{{ msg.timestamp }}">{{ msg.timestamp[:19] }}</time>
+        </div>
+        {% if msg.formatted_content %}
+        <div class="message-content">
+          {{ msg.formatted_content | safe }}
+        </div>
+        {% endif %}
+
+        {% if msg.attachments %}
+        <div class="attachments-container">
+          {% for att in msg.attachments %}
+          <div class="attachment-item">
+            {% if att.is_image %}
+            <div class="image-wrapper">
+              <a href="{{ att.url }}" target="_blank" rel="noopener noreferrer">
+                <img src="{{ att.url }}" alt="{{ att.filename }}" loading="lazy" class="attachment-image">
+              </a>
+            </div>
+            {% else %}
+            <div class="file-attachment">
+              <svg class="file-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6zm4 18H6V4h7v5h5v11z"/>
+              </svg>
+              <div class="file-info">
+                <a href="{{ att.url }}" target="_blank" rel="noopener noreferrer" class="filename">{{ att.filename }}</a>
+                <span class="file-size">{{ att.formatted_size }}</span>
+              </div>
+            </div>
+            {% endif %}
+          </div>
+          {% endfor %}
+        </div>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </main>
+</body>
+</html>
