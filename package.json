@@ -1,0 +1,20 @@
+{
+  "name": "barium",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build:frontend": "vite build",
+    "build:pages": "uv run python -m generator.cli --input logs.jsonl --output dist",
+    "build": "npm run build:frontend && npm run build:pages",
+    "serve": "vite preview --outDir dist",
+    "dev": "vite"
+  },
+  "dependencies": {
+    "sql.js": "^1.12.0"
+  },
+  "devDependencies": {
+    "vite": "^6.2.0",
+    "vite-plugin-static-copy": "^2.2.0"
+  }
+}
