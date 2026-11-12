@@ -39,7 +39,7 @@
 
   <main class="chat-container">
     {% for msg in thread.messages %}
-    <div class="message-group {{ 'msg-internal' if msg.type == 'internal' else '' }} {{ 'msg-system' if msg.type == 'system' else '' }}">
+    <div class="message-group {{ 'msg-internal' if msg.type in ('internal', 'note') else '' }} {{ 'msg-system' if msg.type == 'system' else '' }}">
       <div class="avatar-col">
         <img class="avatar" src="{{ msg.author.avatar_url or 'https://cdn.discordapp.com/embed/avatars/0.png' }}" alt="{{ msg.author.name }}" loading="lazy" onerror="this.onerror=null;this.src='https://cdn.discordapp.com/embed/avatars/0.png';">
       </div>
@@ -55,6 +55,8 @@
           <span class="bot-badge anon-badge">ANONYMOUS</span>
           {% elif msg.type == 'system' %}
           <span class="bot-badge system-badge">SYSTEM</span>
+          {% elif msg.type == 'note' %}
+          <span class="bot-badge internal-badge">NOTE</span>
           {% endif %}
           <time class="timestamp" title="{{ msg.timestamp }}">{{ msg.timestamp[:19] }}</time>
         </div>
