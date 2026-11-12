@@ -136,7 +136,7 @@ function renderResults(results, query) {
     const dateStr = (row.created_at || "").slice(0, 19);
 
     return `
-      <a href="./${row.path}" class="thread-card">
+      <a href="/logs/${row.thread_id}" class="thread-card">
         <div class="card-main">
           <div class="card-title">
             <span class="card-thread-id">#${escapeHtml(row.thread_id)}</span>

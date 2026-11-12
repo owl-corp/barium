@@ -2,7 +2,7 @@ import os
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 
-from .formatter import format_discord_content, format_file_size, get_hash_path
+from .formatter import format_discord_content, format_file_size, get_thread_path
 
 _env = None
 _template = None
@@ -38,7 +38,7 @@ def render_thread_chunk(args):
             for att in msg.get("attachments", []):
                 att["formatted_size"] = format_file_size(att.get("size", 0))
 
-        rel_path = f"threads/{get_hash_path(thread_id)}"
+        rel_path = get_thread_path(thread_id)
         full_path = os.path.join(out_dir, rel_path)
         os.makedirs(os.path.dirname(full_path), exist_ok=True)
 

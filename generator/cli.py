@@ -56,8 +56,6 @@ def main():
         sys.exit(1)
 
     os.makedirs(args.output, exist_ok=True)
-    threads_dir = os.path.join(args.output, "threads")
-    os.makedirs(threads_dir, exist_ok=True)
 
     db_path = os.path.join(args.output, "index.db")
     indexer = SQLiteIndexer(db_path)

@@ -109,8 +109,11 @@ def format_file_size(size_bytes: int) -> str:
         return f"{size_bytes / (1024 * 1024):.1f} MB"
 
 
-def get_hash_path(thread_id: str) -> str:
-    """Return prefix path, e.g. '6b/538e67d78c.html' or '{id}.html' if short."""
-    if len(thread_id) > 2:
-        return f"{thread_id[:2]}/{thread_id[2:]}.html"
-    return f"{thread_id}.html"
+KEY_RE = re.compile(r"[A-Za-z0-9_-]+")
+
+
+def get_thread_path(key: str) -> str:
+    """Output path for a log; served as /logs/<key> by Netlify's pretty URLs."""
+    if not KEY_RE.fullmatch(key):
+        raise ValueError(f"Unsafe log key: {key!r}")
+    return f"logs/{key}.html"
