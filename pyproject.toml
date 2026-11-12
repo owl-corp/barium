@@ -3,6 +3,8 @@ name = "barium"
 version = "0.1.0"
 description = "Reproducible static site and SQLite index generator for ModMail logs"
 readme = "README.md"
+license = "LGPL-3.0-or-later"
+license-files = ["COPYING", "COPYING.LESSER"]
 requires-python = ">=3.11"
 dependencies = [
     "jinja2>=3.1.5",
