@@ -89,3 +89,10 @@ docker push ghcr.io/owl-corp/barium:latest
 ```
 
 The image is nginx serving `dist/` on port 8000 (`nginx.conf` maps `/logs/<key>` to `logs/<key>.html`).
+
+---
+
+## License
+
+Barium is licensed under the [GNU Lesser General Public License v3.0 or later](COPYING.LESSER) (`LGPL-3.0-or-later`).
+The logs it serves are private and are not part of this repository.
