@@ -72,9 +72,18 @@
           <div class="attachment-item">
             {% if att.is_image %}
             <div class="image-wrapper">
-              <a href="{{ att.url }}" target="_blank" rel="noopener noreferrer">
-                <img src="{{ att.url }}" alt="{{ att.filename }}" loading="lazy" class="attachment-image">
+              <a href="{{ att.url }}" target="_blank" rel="noopener noreferrer" class="image-link">
+                <img src="{{ att.url }}" alt="" loading="lazy" class="attachment-image" onerror="this.closest('.image-wrapper').classList.add('failed')">
               </a>
+              <div class="file-attachment image-fallback">
+                <svg class="file-icon" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+                  <path d="M21 19V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2zM8.5 13.5l2.5 3 3.5-4.5 4.5 6H5l3.5-4.5z"/>
+                </svg>
+                <div class="file-info">
+                  <a href="{{ att.url }}" target="_blank" rel="noopener noreferrer" class="filename">{{ att.filename }}</a>
+                  <span class="file-size">Image no longer available &middot; {{ att.formatted_size }}</span>
+                </div>
+              </div>
             </div>
             {% else %}
             <div class="file-attachment">

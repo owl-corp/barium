@@ -287,6 +287,18 @@ body.discord-dark {
   object-fit: contain;
 }
 
+.file-attachment.image-fallback {
+  display: none;
+}
+
+.image-wrapper.failed .image-link {
+  display: none;
+}
+
+.image-wrapper.failed .image-fallback {
+  display: inline-flex;
+}
+
 .file-attachment {
   display: inline-flex;
   align-items: center;
