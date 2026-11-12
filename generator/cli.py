@@ -77,8 +77,9 @@ def main():
         )
         for chunk_results in pool.imap_unordered(render_thread_chunk, tasks):
             indexer.insert_batch(chunk_results)
+            before = total_threads
             total_threads += len(chunk_results)
-            if total_threads % 2000 == 0 or total_threads == 18133:
+            if total_threads // 2000 > before // 2000:
                 print(f"Generated {total_threads} pages...")
 
     print("Finalizing SQLite database index...")
