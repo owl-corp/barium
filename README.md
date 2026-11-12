@@ -74,3 +74,18 @@ Individual build commands:
 npm run serve
 ```
 Open the printed URL (e.g., `http://localhost:4173/`) in your browser to test instant WASM-based SQLite queries.
+
+---
+
+## Container image
+
+The logs are private, so the image is built locally from a Modmail export and pushed to a private package. CI never sees the data.
+
+```bash
+npm run build:frontend
+uv run python -m generator.cli --input export/logs.jsonl --output dist
+docker build -t ghcr.io/owl-corp/barium:latest .
+docker push ghcr.io/owl-corp/barium:latest
+```
+
+The image is nginx serving `dist/` on port 8000 (`nginx.conf` maps `/logs/<key>` to `logs/<key>.html`).
